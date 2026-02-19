@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: ${ACP_POSTGRES:jdbc:postgresql://localhost:5432/acp}
-    username: postgres
-    password: postgres
+    url: ${ACP_POSTGRES:jdbc:postgresql://localhost:5432/acp?user=postgres&password=postgres}
+
+

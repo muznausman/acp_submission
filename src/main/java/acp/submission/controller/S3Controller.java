@@ -21,7 +21,8 @@ public class S3Controller {
         try {
             return ResponseEntity.ok(s3Service.readOne(bucket, key));
         } catch (Exception e) {
-            return ResponseEntity.status(404).build();
+            e.printStackTrace();   // 👈 ADD THIS LINE
+            return ResponseEntity.status(404).body(e.toString());
         }
     }
 

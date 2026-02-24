@@ -19,6 +19,9 @@ public class S3Service {
         this.s3Client = s3Client;
     }
 
+    /**
+     * Read a single object from S3 and return its contents as a String
+     */
     public String readOne(String bucket, String key) {
         GetObjectRequest req = GetObjectRequest.builder()
                 .bucket(bucket)
@@ -31,16 +34,25 @@ public class S3Service {
         return bytes.asString(StandardCharsets.UTF_8);
     }
 
+    /**
+     * List all object keys in a bucket
+     * (returns file names, NOT file contents)
+     */
     public List<String> readAll(String bucket) {
-        ListObjectsV2Response list = s3Client.listObjectsV2(
-                ListObjectsV2Request.builder().bucket(bucket).build()
-        );
+        ListObjectsV2Request request = ListObjectsV2Request.builder()
+                .bucket(bucket)
+                .build();
 
-        List<String> results = new ArrayList<>();
-        for (S3Object obj : list.contents()) {
-            results.add(readOne(bucket, obj.key()));
+        ListObjectsV2Response response = s3Client.listObjectsV2(request);
+
+        List<String> keys = new ArrayList<>();
+
+        for (S3Object obj : response.contents()) {
+            if (obj.key() != null && !obj.key().endsWith("/")) {
+                keys.add(obj.key());
+            }
         }
-        return results;
+
+        return keys;
     }
 }
-

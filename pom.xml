@@ -34,7 +34,7 @@
 			<dependency>
 				<groupId>software.amazon.awssdk</groupId>
 				<artifactId>bom</artifactId>
-				<version>2.25.61</version>
+				<version>2.25.67</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -74,10 +74,17 @@
 			<artifactId>s3</artifactId>
 		</dependency>
 
+
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
-			<artifactId>s3</artifactId>
+			<artifactId>dynamodb</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>dynamodb-enhanced</artifactId>
+		</dependency>
+
 	</dependencies>
 
 

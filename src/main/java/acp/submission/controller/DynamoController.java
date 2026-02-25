@@ -20,8 +20,7 @@ public class DynamoController {
     @GetMapping("/all/dynamo/{table}")
     public ResponseEntity<?> all(@PathVariable String table) {
         try {
-            List<Map<String, Object>> items = (List) dynamoService.readAll(table);
-            return ResponseEntity.ok(items);
+            return ResponseEntity.ok(dynamoService.readAll(table));
         } catch (Exception e) {
             return ResponseEntity.status(404).build();
         }

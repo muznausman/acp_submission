@@ -5,6 +5,8 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.ScanRequest;
 import software.amazon.awssdk.services.dynamodb.model.ScanResponse;
+import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -30,6 +32,23 @@ public class DynamoService {
         return response.items().stream()
                 .map(this::convertItem)
                 .collect(Collectors.toList());
+    }
+    // ✅ Step 2B: Read ONE item by id
+    public Map<String, Object> readOne(String table, String id) {
+
+        GetItemRequest req = GetItemRequest.builder()
+                .tableName(table)
+                .key(Map.of("id", AttributeValue.builder().s(id).build()))
+                .build();
+
+        GetItemResponse res = dynamoDbClient.getItem(req);
+
+        // if not found, return empty map (controller can turn this into 404)
+        if (res.item() == null || res.item().isEmpty()) {
+            return Collections.emptyMap();
+        }
+
+        return convertItem(res.item());
     }
 
     private Map<String, Object> convertItem(Map<String, AttributeValue> item) {
@@ -80,7 +99,11 @@ public class DynamoService {
         }
 
         // Binary sets etc (rare for your assignment)
-        if (av.hasB()) return av.b().asByteArray();
+        // Boolean
+        if (av.bool() != null) return av.bool();
+
+// Binary (rare for your assignment)
+        if (av.b() != null) return av.b().asByteArray();
         if (av.bs() != null && !av.bs().isEmpty()) {
             return av.bs().stream().map(b -> b.asByteArray()).collect(Collectors.toList());
         }

@@ -17,12 +17,11 @@ public class S3Controller {
     }
 
     @GetMapping("/single/s3/{bucket}/{key}")
-    public ResponseEntity<?> single(@PathVariable String bucket, @PathVariable String key) {
+    public ResponseEntity<?> singleS3(@PathVariable String bucket, @PathVariable String key) {
         try {
             return ResponseEntity.ok(s3Service.readOne(bucket, key));
         } catch (Exception e) {
-            e.printStackTrace();   // 👈 ADD THIS LINE
-            return ResponseEntity.status(404).body(e.toString());
+            return ResponseEntity.status(404).build();
         }
     }
 

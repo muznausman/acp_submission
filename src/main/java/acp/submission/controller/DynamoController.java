@@ -25,4 +25,19 @@ public class DynamoController {
             return ResponseEntity.status(404).build();
         }
     }
+
+    @GetMapping("/single/dynamo/{table}/{id}")
+    public ResponseEntity<?> single(@PathVariable String table, @PathVariable String id) {
+        try {
+            Map<String, Object> item = dynamoService.readOne(table, id);
+
+            if (item == null || item.isEmpty()) {
+                return ResponseEntity.status(404).build();
+            }
+
+            return ResponseEntity.ok(item);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).build();
+        }
+    }
 }

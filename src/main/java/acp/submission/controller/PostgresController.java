@@ -17,7 +17,7 @@ public class PostgresController {
         this.postgresService = postgresService;
     }
 
-    @GetMapping("/postgres/{table}")
+    @GetMapping("/all/postgres/{table}")
     public ResponseEntity<?> allPostgres(@PathVariable String table) {
         try {
             List<Map<String, Object>> rows = postgresService.readAll(table);

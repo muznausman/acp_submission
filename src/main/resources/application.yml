@@ -8,3 +8,4 @@ acp:
     region: ${AWS_DEFAULT_REGION:us-east-1}
     accessKey: ${AWS_ACCESS_KEY_ID:test}
     secretKey: ${AWS_SECRET_ACCESS_KEY:test}
+    

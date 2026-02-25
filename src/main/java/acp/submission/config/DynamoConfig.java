@@ -7,15 +7,13 @@ import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 
 import java.net.URI;
 
 @Configuration
 public class DynamoConfig {
 
-    // Uses ACP_DYNAMODB if set, otherwise falls back to LocalStack default
-    @Value("${ACP_DYNAMODB:http://localhost:4566}")
+    @Value("${ACP_DYNAMO:http://localhost:4566}")
     private String dynamoEndpoint;
 
     @Bean
@@ -28,14 +26,6 @@ public class DynamoConfig {
                                 AwsBasicCredentials.create("test", "test")
                         )
                 )
-                .build();
-    }
-
-    // Optional but very useful for mapping items to POJOs later
-    @Bean
-    public DynamoDbEnhancedClient dynamoDbEnhancedClient(DynamoDbClient dynamoDbClient) {
-        return DynamoDbEnhancedClient.builder()
-                .dynamoDbClient(dynamoDbClient)
                 .build();
     }
 }
